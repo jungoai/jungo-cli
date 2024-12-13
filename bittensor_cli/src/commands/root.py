@@ -947,34 +947,28 @@ async def get_weights(
             html_cols,
         )
 
+UID    = int
+Weight = float
 
 async def _get_my_weights(
     subtensor: SubtensorInterface, ss58_address: str, my_uid: str
-) -> NDArray[np.float32]:
+) -> dict[UID, Weight]:
     """Retrieves the weight array for a given hotkey SS58 address."""
 
-    my_weights_, total_subnets_ = await asyncio.gather(
-        subtensor.substrate.query(
-            "SubtensorModule", "Weights", [0, my_uid], reuse_block_hash=True
-        ),
-        subtensor.substrate.query(
-            "SubtensorModule", "TotalNetworks", reuse_block_hash=True
-        ),
+    my_weights_ = await subtensor.substrate.query(
+        "SubtensorModule", "Weights", [0, my_uid], reuse_block_hash=True
     )
-    # If setting weights for the first time, pass 0 root weights
+
     my_weights: list[tuple[int, int]] = (
-        my_weights_ if my_weights_ is not None else [(0, 0)]
+        my_weights_ if my_weights_ is not None else []
     )
-    total_subnets: int = total_subnets_
 
     print_verbose("Fetching current weights")
-    for _, w in enumerate(my_weights):
-        if w:
-            print_verbose(f"{w}")
+    for u, w in enumerate(my_weights):
+        if w: print_verbose(f"uid: {u}, weight: {w}")
 
-    uids, values = zip(*my_weights)
-    weight_array = convert_weight_uids_and_vals_to_tensor(total_subnets, uids, values)
-    return weight_array
+    weights = map(lambda t: (t[0], float(t[1])), my_weights)
+    return dict(weights)
 
 
 async def set_boost(
@@ -996,24 +990,29 @@ async def set_boost(
         return False
 
     print_verbose("Fetching current weights")
-    my_weights = await _get_my_weights(subtensor, wallet.hotkey.ss58_address, my_uid)
-    prev_weights = my_weights.copy()
-    my_weights[netuid] += amount
-    all_netuids = np.arange(len(my_weights))
+    my_weights      = await _get_my_weights(subtensor, wallet.hotkey.ss58_address, my_uid)
+    prev_weights    = my_weights.copy()
+    prev_weigth     = my_weights.get(netuid, 0)
+    new_weight      = prev_weigth + amount
+
+    my_weights[netuid] = new_weight
+
+    netuids = list(my_weights.keys())
+    weights = list(my_weights.values())
 
     console.print(
-        f"Boosting weight for netuid {netuid}\n\tfrom {prev_weights[netuid]} to {my_weights[netuid]}\n"
+        f"Boosting weight for netuid {netuid}\n\tfrom {prev_weigth} to {new_weight}\n"
     )
     console.print(
         f"Previous weights -> Raw weights: \n\t{prev_weights} -> \n\t{my_weights}"
     )
 
-    print_verbose(f"All netuids: {all_netuids}")
+    print_verbose(f"All netuids: {netuids}")
     await set_root_weights_extrinsic(
         subtensor=subtensor,
         wallet=wallet,
-        netuids=all_netuids,
-        weights=my_weights,
+        netuids=netuids,
+        weights=weights,
         version_key=0,
         wait_for_inclusion=True,
         wait_for_finalization=True,
@@ -1039,14 +1038,18 @@ async def set_slash(
         return False
 
     print_verbose("Fetching current weights")
-    my_weights = await _get_my_weights(subtensor, wallet.hotkey.ss58_address, my_uid)
-    prev_weights = my_weights.copy()
-    my_weights[netuid] -= amount
-    my_weights[my_weights < 0] = 0  # Ensure weights don't go negative
-    all_netuids = np.arange(len(my_weights))
+    my_weights      = await _get_my_weights(subtensor, wallet.hotkey.ss58_address, my_uid)
+    prev_weights    = my_weights.copy()
+    prev_weigth     = my_weights.get(netuid, 0)
+    new_weight      = max(0, prev_weigth -  amount) # Ensure weights don't go negative
+
+    my_weights[netuid] = new_weight
+
+    netuids = list(my_weights.keys())
+    weights = list(my_weights.values())
 
     console.print(
-        f"Slashing weight for netuid {netuid}\n\tfrom {prev_weights[netuid]} to {my_weights[netuid]}\n"
+        f"Slashing weight for netuid {netuid}\n\tfrom {prev_weigth} to {new_weight}\n"
     )
     console.print(
         f"Previous weights -> Raw weights: \n\t{prev_weights} -> \n\t{my_weights}"
@@ -1055,8 +1058,8 @@ async def set_slash(
     await set_root_weights_extrinsic(
         subtensor=subtensor,
         wallet=wallet,
-        netuids=all_netuids,
-        weights=my_weights,
+        netuids=netuids,
+        weights=weights,
         version_key=0,
         wait_for_inclusion=True,
         wait_for_finalization=True,
