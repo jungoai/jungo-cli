@@ -91,8 +91,41 @@ def format_call_data(call_data: dict) -> str:
     # Format the final output string
     return f"{call_function}({formatted_args})"
 
+async def _get_delegate_senate(
+    subtensor: SubtensorInterface, block_hash: Optional[str] = None
+) -> list[str]:
+    delegate_senate = await subtensor.substrate.query(
+        module="DelegateSenate",
+        storage_function="Members",
+        params=None,
+        block_hash=block_hash,
+    )
+    try:
+        return [
+            decode_account_id(i[x][0]) for i in delegate_senate for x in range(len(i))
+        ]
+    except (IndexError, TypeError):
+        err_console.print("Unable to retrieve delegate senate members.")
+        return []
 
-async def _get_senate_members(
+async def _get_expert_senate(
+    subtensor: SubtensorInterface, block_hash: Optional[str] = None
+) -> list[str]:
+    expert_senate = await subtensor.substrate.query(
+        module="ExpertSenate",
+        storage_function="Members",
+        params=None,
+        block_hash=block_hash,
+    )
+    try:
+        return [
+            decode_account_id(i[x][0]) for i in expert_senate for x in range(len(i))
+        ]
+    except (IndexError, TypeError):
+        err_console.print("Unable to retrieve expert senate members.")
+        return []
+
+async def _get_all_senate_members(
     subtensor: SubtensorInterface, block_hash: Optional[str] = None
 ) -> list[str]:
     """
@@ -102,19 +135,11 @@ async def _get_senate_members(
 
     :return: list of the senate members' ss58 addresses
     """
-    senate_members = await subtensor.substrate.query(
-        module="SenateMembers",
-        storage_function="Members",
-        params=None,
-        block_hash=block_hash,
-    )
-    try:
-        return [
-            decode_account_id(i[x][0]) for i in senate_members for x in range(len(i))
-        ]
-    except (IndexError, TypeError):
-        err_console.print("Unable to retrieve senate members.")
-        return []
+    
+    delegate_senate = await _get_delegate_senate(subtensor, block_hash)
+    expert_senate   = await _get_expert_senate(subtensor, block_hash)
+
+    return delegate_senate + expert_senate
 
 
 async def _get_proposals(
@@ -176,7 +201,7 @@ async def _is_senate_member(subtensor: SubtensorInterface, hotkey_ss58: str) -> 
     identifying the neurons that hold decision-making power within the network.
     """
 
-    senate_members = await _get_senate_members(subtensor)
+    senate_members = await _get_all_senate_members(subtensor)
 
     if not hasattr(senate_members, "count"):
         return False
@@ -709,12 +734,7 @@ async def root_list(subtensor: SubtensorInterface):
     """List the root network"""
 
     async def _get_list() -> tuple:
-        senate_query = await subtensor.substrate.query(
-            module="SenateMembers",
-            storage_function="Members",
-            params=None,
-        )
-        sm = [decode_account_id(i[x][0]) for i in senate_query for x in range(len(i))]
+        sm = await _get_all_senate_members(subtensor)
 
         rn: list[NeuronInfoLite] = await subtensor.neurons_lite(netuid=0)
         if not rn:
@@ -1125,7 +1145,8 @@ async def get_senate(subtensor: SubtensorInterface):
         spinner="aesthetic",
     ) as status:
         print_verbose("Fetching senate members", status)
-        senate_members = await _get_senate_members(subtensor)
+        delegate_senate = await _get_delegate_senate(subtensor)
+        expert_senate   = await _get_expert_senate(subtensor)
 
     print_verbose("Fetching member details from Github")
     delegate_info: dict[
@@ -1143,6 +1164,11 @@ async def get_senate(subtensor: SubtensorInterface):
             style="bright_magenta",
             no_wrap=True,
         ),
+        Column(
+            "[bold white]Deletate/Expert",
+            style="bright_magenta",
+            no_wrap=True,
+        ),
         title=f"[underline dark_orange]Senate[/underline dark_orange]\n[dark_orange]Network: {subtensor.network}\n",
         show_footer=True,
         show_edge=False,
@@ -1151,7 +1177,7 @@ async def get_senate(subtensor: SubtensorInterface):
         leading=True,
     )
 
-    for ss58_address in senate_members:
+    for ss58_address in delegate_senate:
         table.add_row(
             (
                 delegate_info[ss58_address].display
@@ -1159,6 +1185,18 @@ async def get_senate(subtensor: SubtensorInterface):
                 else "~"
             ),
             ss58_address,
+            "Delegate"
+        )
+
+    for ss58_address in expert_senate:
+        table.add_row(
+            (
+                delegate_info[ss58_address].display
+                if ss58_address in delegate_info
+                else "~"
+            ),
+            ss58_address,
+            "Expert"
         )
 
     return console.print(table)
@@ -1222,7 +1260,7 @@ async def proposals(subtensor: SubtensorInterface):
     print_verbose("Fetching senate members & proposals")
     block_hash = await subtensor.substrate.get_chain_head()
     senate_members, all_proposals = await asyncio.gather(
-        _get_senate_members(subtensor, block_hash),
+        _get_all_senate_members(subtensor, block_hash),
         _get_proposals(subtensor, block_hash),
     )
 
