@@ -1,99 +1,41 @@
 <div align="center">
 
-# Bittensor CLI <!-- omit in toc -->
-[![Discord Chat](https://img.shields.io/discord/308323056592486420.svg)](https://discord.gg/bittensor)
+# Jungoai CLI <!-- omit in toc -->
+[![Discord Chat](https://img.shields.io/discord/308323056592486420.svg)](https://discord.gg/todo)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
-[![PyPI version](https://badge.fury.io/py/bittensor_cli.svg)](https://badge.fury.io/py/bittensor_cli)
+<!-- [![PyPI version](https://badge.fury.io/py/bittensor_cli.svg)](https://badge.fury.io/py/bittensor_cli) -->
 
 ---
-
-## Internet-scale Neural Networks <!-- omit in toc -->
-
-[SDK](https://github.com/opentensor/bittensor/tree/master) • [Wallet](https://github.com/opentensor/btwallet) • [Research](https://bittensor.com/whitepaper)
 
 </div>
 
-- [Documentation](#documentation)
-- [Install on macOS and Linux](#install-on-macos-and-linux)
-  - [Install from source](#install-from-source)
-- [Install on Windows](#install-on-windows)
-- [Verify the installation](#verify-the-installation)
-- [Configuration](#configuration)
-  - [Example config file](#example-config-file)
-- [License](#license)
+## installation
 
----
-
-The Bittensor CLI, `btcli`, is a powerful command line tool for the Bittensor platform. You can use it on any macOS, Linux or WSL terminal to manage all common operations like creating a wallet, registering a subnet or a neuron, delegating your TAO, viewing Senate proposals and voting for them, and much more. Help information can be invoked for every command and option with `--help` option.
-
-![btcli screenshot](./assets/btcli-screenshot.png)
-
----
-
-## Documentation
-
-Installation steps are described below. For a full documentation on how to use `btcli`, see the [Bittensor CLI section](https://docs.bittensor.com/btcli) on the developer documentation site.
-
----
-
-## Install on macOS and Linux
-
-You can install `btcli` on your local machine directly from source. **Make sure you verify your installation after you install**:
-
-### Install from source
-
-1. Create and activate a virtual environment.
+[Install rye](https://rye.astral.sh/guide/installation/):
 
 ```bash
-python3 -m venv btcli_venv
-source btcli_venv/bin/activate
+curl -sSf https://rye.astral.sh/get | bash
 ```
 
-2. Clone the Bittensor CLI repo.
+Then install Jungo-cli via `rye`:
 
-```bash
-git clone https://github.com/opentensor/btcli.git
+``` bash
+rye install jungo-cli --git https://github.com/jungoai/jungo-cli.git
 ```
-
-3. `cd` into `btcli` directory.
-
-```bash
-cd btcli
-```
-
-4.  Install
-
-
-```bash
-pip3 install .
-```
-
----
-
-## Install on Windows
-
-To install and run Bittensor SDK on Windows you must install [**WSL 2** (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/about) on Windows and select [Ubuntu Linux distribution](https://github.com/ubuntu/WSL/blob/main/docs/guides/install-ubuntu-wsl2.md). 
-
-After you installed the above, follow the same installation steps described above in [Install on macOS and Linux](#install-on-macos-and-linux).
-
-**ALERT**: **Limited support on Windows for Bittensor operations**
-While wallet transactions like delegating, transfer, registering, staking can be performed on a Windows machine using WSL 2, the subnet mining and subnet validating operations are not recommended and are not supported on Windows machines.
-
----
 
 ## Verify the installation
 
 ```bash
-btcli --version
+jcli --version
 ```
 
-The above command will show you the version of the `btcli` you just installed.
+The above command will show you the version of the `jcli` you just installed.
 
 ---
 
 ## Configuration
 
-You can set the commonly used values, such as your hotkey and coldkey names, the default chain URL or the network name you use, and more, in `config.yml`. You can override these values by explicitly passing them in the command line for any `btcli` command.
+You can set the commonly used values, such as your hotkey and coldkey names, the default chain URL or the network name you use, and more, in `config.yml`. You can override these values by explicitly passing them in the command line for any `jcli` command.
 
 ### Example config file
 
@@ -127,7 +69,7 @@ metagraph_cols:
 **For more help:**
 
 ```bash
-btcli config --help
+jcli config --help
 ```
 
 ---
