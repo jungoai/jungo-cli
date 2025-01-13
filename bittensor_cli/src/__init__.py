@@ -5,17 +5,19 @@ from typing import Any, Optional
 
 class Constants:
     networks = ["local", "finney", "test", "archive", "subvortex"]
-    finney_entrypoint = "wss://entrypoint-finney.opentensor.ai:443"
-    finney_test_entrypoint = "wss://test.finney.opentensor.ai:443"
-    archive_entrypoint = "wss://archive.chain.opentensor.ai:443"
-    subvortex_entrypoint = "ws://subvortex.info:9944"
-    local_entrypoint = "ws://127.0.0.1:9944"
+    finney_entrypoint       = "ws://52.14.41.79:9944" # TODO: wss & finney
+    finney_test_entrypoint  = "ws://52.14.41.79:9944" # TODO: wss & testnet
+    devnet_entrypoint       = "ws://52.14.41.79:9944" # TODO: wss & testnet
+    archive_entrypoint      = "ws://52.14.41.79:9944" # TODO: wss
+    subvortex_entrypoint    = "ws://subvortex.info:9944"
+    local_entrypoint        = "ws://127.0.0.1:9944"
     network_map = {
-        "finney": finney_entrypoint,
-        "test": finney_test_entrypoint,
-        "archive": archive_entrypoint,
-        "local": local_entrypoint,
-        "subvortex": subvortex_entrypoint,
+        "finney"    : finney_entrypoint,
+        "test"      : finney_test_entrypoint,
+        "devnet"    : devnet_entrypoint,
+        "archive"   : archive_entrypoint,
+        "local"     : local_entrypoint,
+        "subvortex" : subvortex_entrypoint,
     }
     delegates_detail_url = "https://raw.githubusercontent.com/opentensor/bittensor-delegates/main/public/delegates.json"
 
@@ -65,8 +67,8 @@ class Defaults:
     netuid = 1
 
     class config:
-        base_path = "~/.bittensor"
-        path = "~/.bittensor/config.yml"
+        base_path = "~/.jungoai"
+        path = "~/.jungoai/config.yml"
         dictionary = {
             "network": None,
             "wallet_path": None,
@@ -111,13 +113,13 @@ class Defaults:
     class wallet:
         name = "default"
         hotkey = "default"
-        path = "~/.bittensor/wallets/"
+        path = "~/.jungoai/wallets/"
 
     class logging:
         debug = False
         trace = False
         record_log = False
-        logging_dir = "~/.bittensor/miners"
+        logging_dir = "~/.jungoai/miners"
 
 
 defaults = Defaults

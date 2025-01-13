@@ -507,7 +507,7 @@ def format_error_message(error_message: Union[dict, Exception]) -> str:
 
             # subtensor custom error marker
             if err_data.startswith("Custom error:"):
-                err_description = f"{err_data} | Please consult https://docs.bittensor.com/subtensor-nodes/subtensor-error-messages"
+                err_description = f"{err_data} | Please consult https://github.com/jungoai/jungo-cli/issues"
             else:
                 err_description = err_data
 
@@ -681,7 +681,7 @@ class DB:
 
     def __init__(
         self,
-        db_path: str = os.path.expanduser("~/.bittensor/bittensor.db"),
+        db_path: str = os.path.expanduser("~/.jungoai/jungoai.db"),
         row_factory=None,
     ):
         self.db_path = db_path

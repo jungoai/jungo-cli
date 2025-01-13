@@ -105,7 +105,7 @@ class SubtensorInterface:
             chain_endpoint=self.chain_endpoint,
             ss58_format=SS58_FORMAT,
             type_registry=TYPE_REGISTRY,
-            chain_name="Bittensor",
+            chain_name="JungoAI",
         )
 
     def __str__(self):
@@ -723,12 +723,12 @@ class SubtensorInterface:
         reuse_block: bool = False,
     ) -> dict:
         """
-        Queries the identity of a neuron on the Bittensor blockchain using the given key. This function retrieves
+        Queries the identity of a neuron on the Jungoai blockchain using the given key. This function retrieves
         detailed identity information about a specific neuron, which is a crucial aspect of the network's decentralized
         identity and governance system.
 
         Note:
-        See the `Bittensor CLI documentation <https://docs.bittensor.com/reference/btcli>`_ for supported identity
+        See the `Jungoai CLI documentation <https://docs.jungoai.com/reference/btcli>`_ for supported identity
         parameters.
 
         :param key: The key used to query the neuron's identity, typically the neuron's SS58 address.
@@ -738,7 +738,7 @@ class SubtensorInterface:
         :return: An object containing the identity information of the neuron if found, ``None`` otherwise.
 
         The identity information can include various attributes such as the neuron's stake, rank, and other
-        network-specific details, providing insights into the neuron's role and status within the Bittensor network.
+        network-specific details, providing insights into the neuron's role and status within the Jungoai network.
         """
 
         def decode_hex_identity_dict(info_dictionary):
@@ -781,7 +781,7 @@ class SubtensorInterface:
         self, netuid: int, block_hash: Optional[str] = None
     ) -> list[tuple[int, list[tuple[int, int]]]]:
         """
-        Retrieves the weight distribution set by neurons within a specific subnet of the Bittensor network.
+        Retrieves the weight distribution set by neurons within a specific subnet of the Jungoai network.
         This function maps each neuron's UID to the weights it assigns to other neurons, reflecting the
         network's trust and value assignment mechanisms.
 
@@ -809,7 +809,7 @@ class SubtensorInterface:
         self, netuid: int, block_hash: Optional[str] = None
     ) -> list[tuple[int, list[tuple[int, int]]]]:
         """
-        Retrieves the bond distribution set by neurons within a specific subnet of the Bittensor network.
+        Retrieves the bond distribution set by neurons within a specific subnet of the Jungoai network.
         Bonds represent the investments or commitments made by neurons in one another, indicating a level
         of trust and perceived value. This bonding mechanism is integral to the network's market-based approach
         to measuring and rewarding machine intelligence.
@@ -821,7 +821,7 @@ class SubtensorInterface:
 
         Understanding bond distributions is crucial for analyzing the trust dynamics and market behavior
         within the subnet. It reflects how neurons recognize and invest in each other's intelligence and
-        contributions, supporting diverse and niche systems within the Bittensor ecosystem.
+        contributions, supporting diverse and niche systems within the Jungoai ecosystem.
         """
         b_map_encoded = await self.substrate.query_map(
             module="SubtensorModule",
@@ -951,7 +951,7 @@ class SubtensorInterface:
         self, netuid: int, block_hash: Optional[str] = None
     ) -> Optional[Union[list, SubnetHyperparameters]]:
         """
-        Retrieves the hyperparameters for a specific subnet within the Bittensor network. These hyperparameters
+        Retrieves the hyperparameters for a specific subnet within the Jungoai network. These hyperparameters
         define the operational settings and rules governing the subnet's behavior.
 
         :param netuid: The network UID of the subnet to query.
@@ -981,7 +981,7 @@ class SubtensorInterface:
         reuse_block: bool = False,
     ) -> Optional["ProposalVoteData"]:
         """
-        Retrieves the voting data for a specific proposal on the Bittensor blockchain. This data includes
+        Retrieves the voting data for a specific proposal on the Jungoai blockchain. This data includes
         information about how senate members have voted on the proposal.
 
         :param proposal_hash: The hash of the proposal for which voting data is requested.
@@ -991,7 +991,7 @@ class SubtensorInterface:
         :return: An object containing the proposal's voting data, or `None` if not found.
 
         This function is important for tracking and understanding the decision-making processes within
-        the Bittensor network, particularly how proposals are received and acted upon by the governing body.
+        the Jungoai network, particularly how proposals are received and acted upon by the governing body.
         """
         vote_data = await self.substrate.query(
             module="Triumvirate",

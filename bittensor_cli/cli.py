@@ -97,7 +97,7 @@ class Options:
         "-p",
         "--wallet_path",
         "--wallet.path",
-        help="Path where the wallets are located. For example: `/Users/btuser/.bittensor/wallets`.",
+        help="Path where the wallets are located. For example: `/Users/btuser/.jungoai/wallets`.",
     )
     wallet_hotkey = typer.Option(
         None,
@@ -126,7 +126,7 @@ class Options:
     )
     use_password = typer.Option(
         True,
-        help="Set this to `True` to protect the generated Bittensor key with a password.",
+        help="Set this to `True` to protect the generated Jungoai key with a password.",
     )
     public_hex_key = typer.Option(None, help="The public key in hex format.")
     ss58_address = typer.Option(
@@ -870,7 +870,7 @@ class CLIManager:
         ] = None,
     ):
         """
-        Command line interface (CLI) for Bittensor. Uses the values in the configuration file. These values can be overriden by passing them explicitly in the command line.
+        Command line interface (CLI) for Jungoai. Uses the values in the configuration file. These values can be overriden by passing them explicitly in the command line.
         """
         # Load or create the config file
         if os.path.exists(self.config_path):
@@ -1264,9 +1264,9 @@ class CLIManager:
 
         # EXAMPLE
 
-        [green]$[/green] btcli wallet list --path ~/.bittensor
+        [green]$[/green] btcli wallet list --path ~/.jungoai
 
-        [bold]NOTE[/bold]: This command is read-only and does not modify the filesystem or the blockchain state. It is intended for use with the Bittensor CLI to provide a quick overview of the user's wallets.
+        [bold]NOTE[/bold]: This command is read-only and does not modify the filesystem or the blockchain state. It is intended for use with the Jungoai CLI to provide a quick overview of the user's wallets.
         """
         self.verbosity_handler(quiet, verbose)
         wallet = self.wallet_ask(
@@ -1314,7 +1314,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Displays a detailed overview of the user's registered accounts on the Bittensor network.
+        Displays a detailed overview of the user's registered accounts on the Jungoai network.
 
         This command compiles and displays comprehensive information about each neuron associated with the user's wallets, including both hotkeys and coldkeys. It is especially useful for users managing multiple accounts or looking for a summary of their network activities and stake distributions.
 
@@ -1367,7 +1367,7 @@ class CLIManager:
 
         [bold]NOTE[/bold]: This command is read-only and does not modify the blockchain state or account configuration.
         It provides a quick and comprehensive view of the user's network presence, making it useful for monitoring account status,
-        stake distribution, and overall contribution to the Bittensor network.
+        stake distribution, and overall contribution to the Jungoai network.
         """
         self.verbosity_handler(quiet, verbose)
         if include_hotkeys and exclude_hotkeys:
@@ -1445,7 +1445,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Send TAO tokens from one wallet to another wallet on the Bittensor network.
+        Send TAO tokens from one wallet to another wallet on the Jungoai network.
 
         This command is used for transactions between different wallet accounts, enabling users to send tokens to other
         participants on the network. The command displays the user's current balance before prompting for the amount
@@ -1460,7 +1460,7 @@ class CLIManager:
 
         [green]$[/green] btcli wallet transfer --dest 5Dp8... --amount 100
 
-        [bold]NOTE[/bold]: This command is used for executing token transfers within the Bittensor network. Users should verify the destination address and the TAO amount before confirming the transaction to avoid errors or loss of funds.
+        [bold]NOTE[/bold]: This command is used for executing token transfers within the Jungoai network. Users should verify the destination address and the TAO amount before confirming the transaction to avoid errors or loss of funds.
         """
         if not is_valid_ss58_address(destination_ss58_address):
             print_error("You have entered an incorrect ss58 address. Please try again.")
@@ -1566,7 +1566,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Displays the details of the user's wallet pairs (coldkey, hotkey) on the Bittensor network.
+        Displays the details of the user's wallet pairs (coldkey, hotkey) on the Jungoai network.
 
         The output is presented as a table with the below columns:
 
@@ -1586,7 +1586,7 @@ class CLIManager:
 
         USAGE
 
-        This command can be used to inspect a single wallet or all the wallets located at a specified path. It is useful for a comprehensive overview of a user's participation and performance in the Bittensor network.
+        This command can be used to inspect a single wallet or all the wallets located at a specified path. It is useful for a comprehensive overview of a user's participation and performance in the Jungoai network.
 
         EXAMPLE
 
@@ -1594,7 +1594,7 @@ class CLIManager:
 
         [green]$[/green] btcli wallet inspect --all -n 1 -n 2 -n 3
 
-        [bold]Note[/bold]: The `inspect` command is for displaying information only and does not perform any transactions or state changes on the blockchain. It is intended to be used with Bittensor CLI and not as a standalone function in user code.
+        [bold]Note[/bold]: The `inspect` command is for displaying information only and does not perform any transactions or state changes on the blockchain. It is intended to be used with Jungoai CLI and not as a standalone function in user code.
         """
         self.verbosity_handler(quiet, verbose)
 
@@ -1729,7 +1729,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Regenerate a coldkey for a wallet on the Bittensor blockchain network.
+        Regenerate a coldkey for a wallet on the Jungoai blockchain network.
 
         This command is used to create a new coldkey from an existing mnemonic, seed, or JSON file.
 
@@ -1840,7 +1840,7 @@ class CLIManager:
         json_password: Optional[str] = Options.json_password,
         use_password: bool = typer.Option(
             False,  # Overriden to False
-            help="Set to 'True' to protect the generated Bittensor key with a password.",
+            help="Set to 'True' to protect the generated Jungoai key with a password.",
         ),
         quiet: bool = Options.quiet,
         verbose: bool = Options.verbose,
@@ -1896,7 +1896,7 @@ class CLIManager:
         ),
         use_password: bool = typer.Option(
             False,  # Overriden to False
-            help="Set to 'True' to protect the generated Bittensor key with a password.",
+            help="Set to 'True' to protect the generated Jungoai key with a password.",
         ),
         quiet: bool = Options.quiet,
         verbose: bool = Options.verbose,
@@ -1913,7 +1913,7 @@ class CLIManager:
 
         [green]$[/green] btcli wallet new-hotkey --n_words 24
 
-        [italic]Note[/italic]: This command is useful to create additional hotkeys for different purposes, such as running multiple subnet miners or subnet validators or separating operational roles within the Bittensor network.
+        [italic]Note[/italic]: This command is useful to create additional hotkeys for different purposes, such as running multiple subnet miners or subnet validators or separating operational roles within the Jungoai network.
         """
         self.verbosity_handler(quiet, verbose)
 
@@ -1963,7 +1963,7 @@ class CLIManager:
 
         [green]$[/green] btcli wallet new_coldkey --n_words 15
 
-        [bold]Note[/bold]: This command is crucial for users who need to create a new coldkey for enhanced security or as part of setting up a new wallet. It is a foundational step in establishing a secure presence on the Bittensor network.
+        [bold]Note[/bold]: This command is crucial for users who need to create a new coldkey for enhanced security or as part of setting up a new wallet. It is a foundational step in establishing a secure presence on the Jungoai network.
         """
         self.verbosity_handler(quiet, verbose)
 
@@ -2033,7 +2033,7 @@ class CLIManager:
 
         [green]$[/green] btcli wallet create --n_words 21
 
-        [bold]Note[/bold]: This command is for new users setting up their wallet for the first time, or for those who wish to completely renew their wallet keys. It ensures a fresh start with new keys for secure and effective participation in the Bittensor network.
+        [bold]Note[/bold]: This command is for new users setting up their wallet for the first time, or for those who wish to completely renew their wallet keys. It ensures a fresh start with new keys for secure and effective participation in the Jungoai network.
         """
         if not wallet_path:
             wallet_path = Prompt.ask(
@@ -2147,7 +2147,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Show the history of the transfers carried out with the provided wallet on the Bittensor network.
+        Show the history of the transfers carried out with the provided wallet on the Jungoai network.
 
         USAGE
 
@@ -2250,7 +2250,7 @@ class CLIManager:
         prompt: bool = Options.prompt,
     ):
         """
-        Create or update the on-chain identity of a coldkey or a hotkey on the Bittensor network. [bold]Incurs a 1 TAO transaction fee.[/bold]
+        Create or update the on-chain identity of a coldkey or a hotkey on the Jungoai network. [bold]Incurs a 1 TAO transaction fee.[/bold]
 
         The on-chain identity includes attributes such as display name, legal name, web URL, PGP fingerprint, and contact information, among others.
 
@@ -2451,7 +2451,7 @@ class CLIManager:
 
         The command fetches and lists the neurons (root network validators) in the root network, showing their unique identifiers (UIDs), names, addresses, stakes, and whether they are part of the senate (network governance body).
 
-        This command is useful for understanding the composition and governance structure of the Bittensor network's root network. It provides insights into which neurons hold significant influence and responsibility within the Bittensor network.
+        This command is useful for understanding the composition and governance structure of the Jungoai network's root network. It provides insights into which neurons hold significant influence and responsibility within the Jungoai network.
 
         EXAMPLE
 
@@ -2562,7 +2562,7 @@ class CLIManager:
         """
         Shows a table listing the weights assigned to each subnet in the root network.
 
-        This command provides visibility into how network responsibilities and rewards are distributed among various subnets. This information is crucial for understanding the current influence and reward distribution across different subnets. Use this command if you are interested in the governance and operational dynamics of the Bittensor network.
+        This command provides visibility into how network responsibilities and rewards are distributed among various subnets. This information is crucial for understanding the current influence and reward distribution across different subnets. Use this command if you are interested in the governance and operational dynamics of the Jungoai network.
 
         EXAMPLE
 
@@ -2695,13 +2695,13 @@ class CLIManager:
         ),
     ):
         """
-        Cast a vote on an active proposal in Bittensor's governance protocol.
+        Cast a vote on an active proposal in Jungoai's governance protocol.
 
         This command is used by Senate members to vote on various proposals that shape the network's future. Use `btcli root proposals` to see the active proposals and their hashes.
 
         USAGE
 
-        The user must specify the hash of the proposal they want to vote on. The command then allows the Senate member to cast a 'Yes' or 'No' vote, contributing to the decision-making process on the proposal. This command is crucial for Senate members to exercise their voting rights on key proposals. It plays a vital role in the governance and evolution of the Bittensor network.
+        The user must specify the hash of the proposal they want to vote on. The command then allows the Senate member to cast a 'Yes' or 'No' vote, contributing to the decision-making process on the proposal. This command is crucial for Senate members to exercise their voting rights on key proposals. It plays a vital role in the governance and evolution of the Jungoai network.
 
         EXAMPLE
 
@@ -2728,9 +2728,9 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Shows the Senate members of the Bittensor's governance protocol.
+        Shows the Senate members of the Jungoai's governance protocol.
 
-        This command lists the delegates involved in the decision-making process of the Bittensor network, showing their names and wallet addresses. This information is crucial for understanding who holds governance roles within the network.
+        This command lists the delegates involved in the decision-making process of the Jungoai network, showing their names and wallet addresses. This information is crucial for understanding who holds governance roles within the network.
 
         EXAMPLE
 
@@ -2781,7 +2781,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        View active proposals for the senate in the Bittensor's governance protocol.
+        View active proposals for the senate in the Jungoai's governance protocol.
 
         This command displays the details of ongoing proposals, including proposal hashes, votes, thresholds, and proposal data.
 
@@ -3063,7 +3063,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Displays a table of Bittensor network-wide delegates, providing a comprehensive overview of delegate statistics and information.
+        Displays a table of Jungoai network-wide delegates, providing a comprehensive overview of delegate statistics and information.
 
         This table helps users make informed decisions on which delegates to allocate their TAO stake.
 

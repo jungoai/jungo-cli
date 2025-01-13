@@ -3,7 +3,7 @@ name            = "jungo-cli"
 version         = "0.1.0"
 readme          = "README.md"
 requires-python = ">=3.9"
-# url             = "https://github.com/jango-ai/jcli" # TODO
+url             = "https://github.com/jungoai/jungo-cli"
 # author          = "jango-ai.com" # TODO
 dependencies    = [
     "wheel",
@@ -34,7 +34,7 @@ dependencies    = [
 ]
 
 [project.scripts]
-"jcli" = "bittensor_cli.cli:main"
+"jucli" = "bittensor_cli.cli:main"
 
 [build-system]
 requires = ["hatchling", "wheel"]
