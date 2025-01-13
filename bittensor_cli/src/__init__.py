@@ -4,20 +4,16 @@ from typing import Any, Optional
 
 
 class Constants:
-    networks = ["local", "finney", "test", "archive", "subvortex"]
-    finney_entrypoint       = "ws://52.14.41.79:9944" # TODO: wss & finney
-    finney_test_entrypoint  = "ws://52.14.41.79:9944" # TODO: wss & testnet
-    devnet_entrypoint       = "ws://52.14.41.79:9944" # TODO: wss & testnet
-    archive_entrypoint      = "ws://52.14.41.79:9944" # TODO: wss
-    subvortex_entrypoint    = "ws://subvortex.info:9944"
+    networks = ["local", "finney", "test", "devnet"]
+    finney_entrypoint       = "wss://devnet-rpc.jungoai.xyz" # TODO: it should be finney
+    finney_test_entrypoint  = "wss://devnet-rpc.jungoai.xyz" # TODO: testnet
+    devnet_entrypoint       = "wss://devnet-rpc.jungoai.xyz"
     local_entrypoint        = "ws://127.0.0.1:9944"
     network_map = {
         "finney"    : finney_entrypoint,
         "test"      : finney_test_entrypoint,
         "devnet"    : devnet_entrypoint,
-        "archive"   : archive_entrypoint,
         "local"     : local_entrypoint,
-        "subvortex" : subvortex_entrypoint,
     }
     delegates_detail_url = "https://raw.githubusercontent.com/opentensor/bittensor-delegates/main/public/delegates.json"
 
