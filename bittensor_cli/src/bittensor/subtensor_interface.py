@@ -558,7 +558,7 @@ class SubtensorInterface:
     ) -> Balance:
         """
         Retrieves the existential deposit amount for the Bittensor blockchain. The existential deposit
-        is the minimum amount of TAO required for an account to exist on the blockchain. Accounts with
+        is the minimum amount of JUNGO required for an account to exist on the blockchain. Accounts with
         balances below this threshold can be reaped to conserve network resources.
 
         :param block_hash: Block hash at which to query the deposit amount. If `None`, the current block is used.

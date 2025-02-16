@@ -179,7 +179,7 @@ def test_wallet_transfer(local_chain, wallet_setup):
     Steps:
         1. Create wallets for Alice and Bob with initial balance already
         2. Ensure initial balance is displayed correctly
-        3. Transfer 100 TAO from Alice to Bob
+        3. Transfer 100 JUNGO from Alice to Bob
         4. Assert amount was transferred along with transfer tolerance
         5. Assert transfer fails with no balance for Anakin
 

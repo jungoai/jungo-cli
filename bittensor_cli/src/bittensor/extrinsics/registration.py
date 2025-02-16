@@ -687,7 +687,7 @@ async def run_faucet_extrinsic(
     log_verbose: bool = True,
     max_successes: int = 3,
 ) -> tuple[bool, str]:
-    r"""Runs a continual POW to get a faucet of TAO on the test net.
+    r"""Runs a continual POW to get a faucet of JUNGO on the test net.
 
     :param subtensor: The subtensor interface object used to run the extrinsic
     :param wallet: Bittensor wallet object.
@@ -1644,7 +1644,7 @@ async def swap_hotkey_extrinsic(
             f"Do you want to swap [dark_orange]{wallet.name}[/dark_orange] hotkey \n\t"
             f"[dark_orange]{wallet.hotkey.ss58_address}[/dark_orange] with hotkey \n\t"
             f"[dark_orange]{new_wallet.hotkey.ss58_address}[/dark_orange]\n"
-            "This operation will cost [bold cyan]1 TAO t (recycled)[/bold cyan]"
+            "This operation will cost [bold cyan]1 JUNGO t (recycled)[/bold cyan]"
         ):
             return False
     print_verbose(

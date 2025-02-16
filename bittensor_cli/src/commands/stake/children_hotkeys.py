@@ -413,7 +413,7 @@ async def get_children(
                 total_proportion_per_netuid += proportion_percent
 
                 # Conditionally format text
-                proportion_str = f"{proportion_percent:.3f}% ({proportion_tao:.3f}τ)"
+                proportion_str = f"{proportion_percent:.3f}% ({proportion_tao:.3f}J)"
                 stake_weight = stake.tao + proportion_tao
                 total_stake_weight_per_netuid += stake_weight
                 take_str = f"{child_take * 100:.3f}%"
@@ -435,7 +435,7 @@ async def get_children(
                 "[dim]Total[/dim]",
                 f"[dim]{total_proportion_per_netuid:.3f}%[/dim]",
                 f"[dim](avg) {avg_take_per_netuid * 100:.3f}%[/dim]",
-                f"[dim]{total_stake_weight_per_netuid:.3f}τ[/dim]",
+                f"[dim]{total_stake_weight_per_netuid:.3f}J[/dim]",
                 style="dim",
             )
 

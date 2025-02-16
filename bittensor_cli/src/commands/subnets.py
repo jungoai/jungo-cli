@@ -335,7 +335,7 @@ async def subnets_list(
                     "title": "Recycle",
                     "field": "RECYCLE",
                     "formatter": "money",
-                    "formatterParams": {"symbol": "τ", "precision": 5},
+                    "formatterParams": {"symbol": "J", "precision": 5},
                 },
                 {
                     "title": "Difficulty",
@@ -416,7 +416,7 @@ async def pow_register(
 async def register(
     wallet: Wallet, subtensor: "SubtensorInterface", netuid: int, prompt: bool
 ):
-    """Register neuron by recycling some TAO."""
+    """Register neuron by recycling some JUNGO."""
 
     # Verify subnet exists
     print_verbose("Checking subnet status")
@@ -441,7 +441,7 @@ async def register(
     # Check balance is sufficient
     if balance < current_recycle:
         err_console.print(
-            f"[red]Insufficient balance {balance} to register neuron. Current recycle is {current_recycle} TAO[/red]"
+            f"[red]Insufficient balance {balance} to register neuron. Current recycle is {current_recycle} JUNGO[/red]"
         )
         return
 
@@ -641,7 +641,7 @@ async def metagraph_cmd(
                         "title": "Stake",
                         "field": "STAKE",
                         "formatter": "money",
-                        "formatterParams": {"symbol": "τ", "precision": 5},
+                        "formatterParams": {"symbol": "J", "precision": 5},
                     },
                     {
                         "title": "Rank",

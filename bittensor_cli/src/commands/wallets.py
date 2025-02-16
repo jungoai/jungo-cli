@@ -1221,7 +1221,7 @@ async def _get_de_registered_stake_for_coldkey_wallet(
     :param all_hotkey_addresses: collection of hotkey SS58 addresses
     :param coldkey_wallet: Wallet containing coldkey
 
-    :return: (original wallet, [(hotkey SS58, stake in TAO), ...], error message)
+    :return: (original wallet, [(hotkey SS58, stake in JUNGO), ...], error message)
     """
     # Pull all stake for our coldkey
     all_stake_info_for_coldkey = await subtensor.get_stake_info_for_coldkey(

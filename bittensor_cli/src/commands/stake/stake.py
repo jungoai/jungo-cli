@@ -1106,7 +1106,7 @@ async def show(
                     "title": "Balance",
                     "field": "BALANCE",
                     "formatter": "money",
-                    "formatterParams": {"symbol": "τ", "precision": 5},
+                    "formatterParams": {"symbol": "J", "precision": 5},
                 },
                 {
                     "title": "Account",
@@ -1117,13 +1117,13 @@ async def show(
                     "title": "Stake",
                     "field": "STAKE",
                     "formatter": "money",
-                    "formatterParams": {"symbol": "τ", "precision": 5},
+                    "formatterParams": {"symbol": "J", "precision": 5},
                 },
                 {
                     "title": "Daily Rate",
                     "field": "RATE",
                     "formatter": "money",
-                    "formatterParams": {"symbol": "τ", "precision": 5},
+                    "formatterParams": {"symbol": "J", "precision": 5},
                 },
                 {
                     "title": "Hotkey",

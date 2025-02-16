@@ -424,7 +424,7 @@ class DelegateInfo:
     :param owner_ss58: Coldkey of the owner.
     :param registrations: list of subnets that the delegate is registered on.
     :param validator_permits: list of subnets that the delegate is allowed to validate on.
-    :param return_per_1000: Return per 1000 TAO, for the delegate over a day.
+    :param return_per_1000: Return per 1000 JUNGO, for the delegate over a day.
     :param total_daily_return: Total daily return of the delegate.
 
     """

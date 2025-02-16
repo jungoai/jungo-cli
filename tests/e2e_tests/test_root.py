@@ -115,11 +115,11 @@ def test_root_commands(local_chain, wallet_setup):
     take_percentage = float(bob_delegate_info[7].strip("%")) / 100
     assert take_percentage == 0.18
 
-    # DELEGATE STAKE(τ): This should be 0 as no delegation yet
+    # DELEGATE STAKE(J): This should be 0 as no delegation yet
     delegate_stake = Balance.from_tao(string_tao_to_float(bob_delegate_info[4]))
     assert delegate_stake == Balance.from_tao(0)
 
-    # TOTAL STAKE(τ): This should be 0 as no stake yet
+    # TOTAL STAKE(J): This should be 0 as no stake yet
     total_stake = Balance.from_tao(string_tao_to_float(bob_delegate_info[5]))
     assert total_stake == Balance.from_tao(0)
 
@@ -332,14 +332,14 @@ def check_my_delegates(exec_command, wallet, delegate_ss58key, delegate_amount):
     assert delegates_info[0] == wallet.name
     # SS58: address of the Bob's hotkey (Alice has staked to Bob)
     assert delegate_ss58key == delegates_info[2]
-    # Delegation: This should be `delegate_amount` as Alice delegated `delegate_amount` TAO to Bob
+    # Delegation: This should be `delegate_amount` as Alice delegated `delegate_amount` JUNGO to Bob
     delegate_stake = Balance.from_tao(string_tao_to_float(delegates_info[3]))
     assert delegate_stake == Balance.from_tao(delegate_amount)
-    # TOTAL STAKE(τ): This should be `delegate_amount` as only Alice has delegated to Bob
+    # TOTAL STAKE(J): This should be `delegate_amount` as only Alice has delegated to Bob
     total_stake = Balance.from_tao(string_tao_to_float(delegates_info[7]))
     assert total_stake == Balance.from_tao(delegate_amount)
     # Total delegated Tao: This is listed at the bottom of the information
-    # Since Alice has only delegated to Bob, total should be `delegate_amount` TAO
+    # Since Alice has only delegated to Bob, total should be `delegate_amount` JUNGO
     total_delegated_tao = Balance.from_tao(
         string_tao_to_float(delegates.stdout.splitlines()[8].split()[3])
     )
@@ -372,4 +372,4 @@ def check_balance(exec_command, wallet, expected_balance):
 
 
 def string_tao_to_float(alice_delegates_info: str) -> float:
-    return float(alice_delegates_info.replace(",", "").strip("τ"))
+    return float(alice_delegates_info.replace(",", "").strip("J"))

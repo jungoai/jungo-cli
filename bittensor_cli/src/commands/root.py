@@ -288,12 +288,12 @@ async def burned_register_extrinsic(
     wait_for_finalization: bool = True,
     prompt: bool = False,
 ) -> bool:
-    """Registers the wallet to chain by recycling TAO.
+    """Registers the wallet to chain by recycling JUNGO.
 
     :param subtensor: The SubtensorInterface object to use for the call, initialized
     :param wallet: Bittensor wallet object.
     :param netuid: The `netuid` of the subnet to register on.
-    :param recycle_amount: The amount of TAO required for this burn.
+    :param recycle_amount: The amount of JUNGO required for this burn.
     :param old_balance: The wallet balance prior to the registration burn.
     :param wait_for_inclusion: If set, waits for the extrinsic to enter a block before returning `True`, or returns
                                `False` if the extrinsic fails to enter the block within the timeout.
@@ -334,7 +334,7 @@ async def burned_register_extrinsic(
             return True
 
     with console.status(
-        ":satellite: Recycling TAO for Registration...", spinner="aesthetic"
+        ":satellite: Recycling JUNGO for Registration...", spinner="aesthetic"
     ):
         call = await subtensor.substrate.compose_call(
             call_module="SubtensorModule",
@@ -496,7 +496,7 @@ async def delegate_extrinsic(
     :param subtensor: The SubtensorInterface used to perform the delegation, initialized.
     :param wallet: Bittensor wallet object.
     :param delegate_ss58: The `ss58` address of the delegate.
-    :param amount: Amount to stake as bittensor balance, None to stake all available TAO.
+    :param amount: Amount to stake as bittensor balance, None to stake all available JUNGO.
     :param wait_for_inclusion: If set, waits for the extrinsic to enter a block before returning `True`, or returns
                               `False` if the extrinsic fails to enter the block within the timeout.
     :param wait_for_finalization: If set, waits for the extrinsic to be finalized on the chain before returning `True`,
@@ -1203,7 +1203,7 @@ async def get_senate(subtensor: SubtensorInterface):
 
 
 async def register(wallet: Wallet, subtensor: SubtensorInterface, prompt: bool):
-    """Register neuron by recycling some TAO."""
+    """Register neuron by recycling some JUNGO."""
 
     console.print(
         f"Registering on [dark_orange]netuid 0[/dark_orange] on network: [dark_orange]{subtensor.network}"
@@ -1229,7 +1229,7 @@ async def register(wallet: Wallet, subtensor: SubtensorInterface, prompt: bool):
     if balance < current_recycle:
         err_console.print(
             f"[red]Insufficient balance {balance} to register neuron. "
-            f"Current recycle is {current_recycle} TAO[/red]"
+            f"Current recycle is {current_recycle} JUNGO[/red]"
         )
         return False
 
@@ -1554,7 +1554,7 @@ async def my_delegates(
             "[yellow]Warning: Your terminal width might be too small to view all the information clearly"
         )
     console.print(table)
-    console.print(f"Total delegated TAO: {total_delegated}")
+    console.print(f"Total delegated JUNGO: {total_delegated}")
 
 
 async def list_delegates(subtensor: SubtensorInterface):

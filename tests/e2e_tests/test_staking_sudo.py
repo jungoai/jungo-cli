@@ -22,7 +22,7 @@ def test_staking(local_chain, wallet_setup):
 
     Steps:
         1. Create wallets for Alice and create a subnet & register
-        2. Add 100 TAO stake to Alice's hotkey and verify
+        2. Add 100 JUNGO stake to Alice's hotkey and verify
         3. Execute stake show and assert stake is present
         4. Execute stake remove and assert removal
         5. Fetch current subnet hyperparameters
@@ -113,7 +113,7 @@ def test_staking(local_chain, wallet_setup):
     cleaned_stake = [
         re.sub(r"\s+", " ", line) for line in show_stake.stdout.splitlines()
     ]
-    stake_added = cleaned_stake[6].split()[6].strip("τ")
+    stake_added = cleaned_stake[6].split()[6].strip("J")
     assert Balance.from_tao(100) == Balance.from_tao(float(stake_added))
 
     # TODO: Ask nucleus the rate limit and wait epoch
@@ -121,7 +121,7 @@ def test_staking(local_chain, wallet_setup):
     print("Waiting for interval for 2 minutes")
     time.sleep(120)
 
-    # Execute remove_stake command and remove all 100 TAO from Alice
+    # Execute remove_stake command and remove all 100 JUNGO from Alice
     remove_stake = exec_command_alice(
         command="stake",
         sub_command="remove",
@@ -153,14 +153,14 @@ def test_staking(local_chain, wallet_setup):
         ],
     )
 
-    # Parse all hyperparameters and single out max_burn in TAO
+    # Parse all hyperparameters and single out max_burn in JUNGO
     all_hyperparams = hyperparams.stdout.splitlines()
     max_burn_tao = all_hyperparams[22].split()[2]
 
-    # Assert max_burn is 100 TAO from default
-    assert Balance.from_tao(float(max_burn_tao.strip("τ"))) == Balance.from_tao(100)
+    # Assert max_burn is 100 JUNGO from default
+    assert Balance.from_tao(float(max_burn_tao.strip("J"))) == Balance.from_tao(100)
 
-    # Change max_burn hyperparameter to 10 TAO
+    # Change max_burn hyperparameter to 10 JUNGO
     change_hyperparams = exec_command_alice(
         command="sudo",
         sub_command="set",
@@ -178,7 +178,7 @@ def test_staking(local_chain, wallet_setup):
             "--param",
             "max_burn",
             "--value",
-            "10000000000",  # In RAO, TAO = 10
+            "10000000000",  # In RAO, JUNGO = 10
         ],
     )
     assert (
@@ -201,8 +201,8 @@ def test_staking(local_chain, wallet_setup):
     all_updated_hyperparams = updated_hyperparams.stdout.splitlines()
     updated_max_burn_tao = all_updated_hyperparams[22].split()[2]
 
-    # Assert max_burn is now 10 TAO
-    assert Balance.from_tao(float(updated_max_burn_tao.strip("τ"))) == Balance.from_tao(
+    # Assert max_burn is now 10 JUNGO
+    assert Balance.from_tao(float(updated_max_burn_tao.strip("J"))) == Balance.from_tao(
         10
     )
     print("✅ Passed staking and sudo commands")

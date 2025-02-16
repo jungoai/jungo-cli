@@ -76,9 +76,9 @@ def extract_coldkey_balance(text: str, wallet_name: str, coldkey_address: str) -
     """
     pattern = (
         rf"{wallet_name}\s+{coldkey_address}\s+"
-        r"τ([\d,]+\.\d+)\s+"  # Free Balance
-        r"τ([\d,]+\.\d+)\s+"  # Staked Balance
-        r"τ([\d,]+\.\d+)"  # Total Balance
+        r"J([\d,]+\.\d+)\s+"  # Free Balance
+        r"J([\d,]+\.\d+)\s+"  # Staked Balance
+        r"J([\d,]+\.\d+)"  # Total Balance
     )
 
     match = re.search(pattern, text)
@@ -117,7 +117,7 @@ def verify_subnet_entry(output_text: str, netuid: str, ss58_address: str) -> boo
         r"\d+(?:\.\d+)?\s*[KMB]*\s*\│\s*"  # MAX_N (number with optional decimal and K/M/B suffix)
         r"\d+\.\d+%\s*\│\s*"  # EMISSION (percentage)
         r"\d+\s*\│\s*"  # TEMPO (any number)
-        r"τ\d+\.\d+\s*\│\s*"  # RECYCLE (τ followed by a number)
+        r"J\d+\.\d+\s*\│\s*"  # RECYCLE (J followed by a number)
         r"\d+(?:\.\d+)?\s*[KMB]*\s*\│\s*"  # POW (number with optional decimal and K/M/B suffix)
         rf"{re.escape(ss58_address)}\b"  # SUDO (exact SS58 address)
     )
@@ -151,7 +151,7 @@ def validate_wallet_overview(
     pattern += rf"{hotkey}\s+"  # HOTKEY
     pattern += rf"{uid}\s+"  # UID
     pattern += r"True\s+"  # ACTIVE - Always True immediately after we register
-    pattern += r"[\d.]+\s+"  # STAKE(τ)
+    pattern += r"[\d.]+\s+"  # STAKE(J)
     pattern += r"[\d.]+\s+"  # RANK
     pattern += r"[\d.]+\s+"  # TRUST
     pattern += r"[\d.]+\s+"  # CONSENSUS
@@ -198,7 +198,7 @@ def validate_wallet_inspect(
     lines = [re.sub(r"\s+", " ", line) for line in cleaned_text.splitlines()]
 
     def parse_value(value):
-        return float(value.replace("τ", "").replace(",", ""))
+        return float(value.replace("J", "").replace(",", ""))
 
     def check_stake(actual, expected):
         return expected <= actual <= expected + 2
@@ -216,7 +216,7 @@ def validate_wallet_inspect(
     # This checks for presence of delegates in each row
     if delegates:
         for ss58, stake, check_emission in delegates:
-            delegate_pattern = rf"{ss58}\s+τ([\d,.]+)\s+([\d.e-]+)"
+            delegate_pattern = rf"{ss58}\s+J([\d,.]+)\s+([\d.e-]+)"
             for line in lines:
                 match = re.search(delegate_pattern, line)
                 if match:
@@ -233,7 +233,7 @@ def validate_wallet_inspect(
     # This checks for hotkeys that are registered to subnets
     if hotkeys_netuid:
         for netuid, hotkey, stake, check_emission in hotkeys_netuid:
-            hotkey_pattern = rf"{netuid}\s+{hotkey}\s+τ([\d,.]+)\s+τ([\d,.]+)"
+            hotkey_pattern = rf"{netuid}\s+{hotkey}\s+J([\d,.]+)\s+J([\d,.]+)"
             for line in lines:
                 match = re.search(hotkey_pattern, line)
                 if match:

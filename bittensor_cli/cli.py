@@ -73,7 +73,7 @@ __version_as_int__: int = sum(
 assert __version_as_int__ < 2**31  # fits in int32
 __new_signature_version__ = 360
 
-_epilog = "Made with [bold red]:heart:[/bold red] by The Openτensor Foundaτion"
+_epilog = "Made with [bold red]:heart:[/bold red] by The JungoAI Foundation"
 
 np.set_printoptions(precision=8, suppress=True, floatmode="fixed")
 
@@ -1332,7 +1332,7 @@ class CLIManager:
 
         - ACTIVE: Indicates if the neuron is active.
 
-        - STAKE(τ): Amount of stake in the neuron, in TAO.
+        - STAKE(J): Amount of stake in the neuron, in JUNGO.
 
         - RANK: The rank of the neuron within the network.
 
@@ -1431,7 +1431,7 @@ class CLIManager:
             "--amount",
             "-a",
             prompt=False,
-            help="Amount (in TAO) to transfer.",
+            help="Amount (in JUNGO) to transfer.",
         ),
         transfer_all: bool = typer.Option(
             False, "--all", prompt=False, help="Transfer all available balance."
@@ -1445,7 +1445,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Send TAO tokens from one wallet to another wallet on the Jungoai network.
+        Send JUNGO tokens from one wallet to another wallet on the Jungoai network.
 
         This command is used for transactions between different wallet accounts, enabling users to send tokens to other
         participants on the network. The command displays the user's current balance before prompting for the amount
@@ -1453,14 +1453,14 @@ class CLIManager:
 
         USAGE
 
-        The command requires that you specify the destination address (public key) and the amount of TAO you want transferred.
+        The command requires that you specify the destination address (public key) and the amount of JUNGO you want transferred.
         It checks if sufficient balance exists in your wallet and prompts for confirmation before proceeding with the transaction.
 
         EXAMPLE
 
         [green]$[/green] btcli wallet transfer --dest 5Dp8... --amount 100
 
-        [bold]NOTE[/bold]: This command is used for executing token transfers within the Jungoai network. Users should verify the destination address and the TAO amount before confirming the transaction to avoid errors or loss of funds.
+        [bold]NOTE[/bold]: This command is used for executing token transfers within the Jungoai network. Users should verify the destination address and the JUNGO amount before confirming the transaction to avoid errors or loss of funds.
         """
         if not is_valid_ss58_address(destination_ss58_address):
             print_error("You have entered an incorrect ss58 address. Please try again.")
@@ -1481,7 +1481,7 @@ class CLIManager:
         elif transfer_all:
             amount = 0
         elif not amount:
-            amount = FloatPrompt.ask("Enter amount (in TAO) to transfer.")
+            amount = FloatPrompt.ask("Enter amount (in JUNGO) to transfer.")
         return self._run_command(
             wallets.transfer(
                 wallet,
@@ -1517,7 +1517,7 @@ class CLIManager:
 
         - Make sure that your original key pair (coldkeyA, hotkeyA) is already registered.
         - Make sure that you use a newly created hotkeyB in this command. A hotkeyB that is already registered cannot be used in this command.
-        - Finally, note that this command requires a fee of 1 TAO for recycling and this fee is taken from your wallet (coldkeyA).
+        - Finally, note that this command requires a fee of 1 JUNGO for recycling and this fee is taken from your wallet (coldkeyA).
 
         EXAMPLE
 
@@ -1574,7 +1574,7 @@ class CLIManager:
 
         - [blue bold]Balance[/blue bold]: The balance of the coldkey.
 
-        - [blue bold]Delegate[/blue bold]: The name of the delegate to which the coldkey has staked TAO.
+        - [blue bold]Delegate[/blue bold]: The name of the delegate to which the coldkey has staked JUNGO.
 
         - [blue bold]Stake[/blue bold]: The amount of stake held by both the coldkey and hotkey.
 
@@ -1675,7 +1675,7 @@ class CLIManager:
         prompt: bool = Options.prompt,
     ):
         """
-        Obtain test TAO tokens by performing Proof of Work (PoW).
+        Obtain test JUNGO tokens by performing Proof of Work (PoW).
 
         This command is useful for users who need test tokens for operations on a local blockchain.
 
@@ -1683,14 +1683,14 @@ class CLIManager:
 
         USAGE
 
-        The command uses the proof-of-work (POW) mechanism to validate the user's effort and rewards them with test TAO tokens. It is
-        typically used in local blockchain environments where transactions do not use real TAO tokens.
+        The command uses the proof-of-work (POW) mechanism to validate the user's effort and rewards them with test JUNGO tokens. It is
+        typically used in local blockchain environments where transactions do not use real JUNGO tokens.
 
         EXAMPLE
 
         [green]$[/green] btcli wallet faucet --faucet.num_processes 4 --faucet.cuda.use_cuda
 
-        [bold]Note[/bold]: This command is meant for used in local environments where users can experiment with the blockchain without using real TAO tokens. Users must have the necessary hardware setup, especially when opting for CUDA-based GPU calculations. It is currently disabled on testnet and mainnet (finney). You can only use this command on a local blockchain.
+        [bold]Note[/bold]: This command is meant for used in local environments where users can experiment with the blockchain without using real JUNGO tokens. Users must have the necessary hardware setup, especially when opting for CUDA-based GPU calculations. It is currently disabled on testnet and mainnet (finney). You can only use this command on a local blockchain.
         """
         wallet = self.wallet_ask(
             wallet_name,
@@ -1953,7 +1953,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Create a new coldkey. A coldkey is required for holding TAO balances and performing high-value transactions.
+        Create a new coldkey. A coldkey is required for holding JUNGO balances and performing high-value transactions.
 
         USAGE
 
@@ -2250,7 +2250,7 @@ class CLIManager:
         prompt: bool = Options.prompt,
     ):
         """
-        Create or update the on-chain identity of a coldkey or a hotkey on the Jungoai network. [bold]Incurs a 1 TAO transaction fee.[/bold]
+        Create or update the on-chain identity of a coldkey or a hotkey on the Jungoai network. [bold]Incurs a 1 JUNGO transaction fee.[/bold]
 
         The on-chain identity includes attributes such as display name, legal name, web URL, PGP fingerprint, and contact information, among others.
 
@@ -2750,13 +2750,13 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Register a neuron to the root subnet by recycling some TAO to cover for the registration cost.
+        Register a neuron to the root subnet by recycling some JUNGO to cover for the registration cost.
 
         This command adds a new neuron as a validator on the root network. This will allow the neuron owner to set subnet weights.
 
         # Usage:
 
-        Before registering, the command checks if the specified subnet exists and whether the TAO balance in the user's wallet is sufficient to cover the registration cost. The registration cost is determined by the current recycle amount for the specified subnet. If the balance is insufficient or the subnet does not exist, the command will exit with an appropriate error message.
+        Before registering, the command checks if the specified subnet exists and whether the JUNGO balance in the user's wallet is sufficient to cover the registration cost. The registration cost is determined by the current recycle amount for the specified subnet. If the balance is insufficient or the subnet does not exist, the command will exit with an appropriate error message.
 
         # Example usage:
 
@@ -2848,17 +2848,17 @@ class CLIManager:
         self,
         delegate_ss58key: str = typer.Option(
             None,
-            help="The ss58 address of the delegate hotkey to stake TAO to.",
-            prompt="Enter the hotkey ss58 address you want to delegate TAO to.",
+            help="The ss58 address of the delegate hotkey to stake JUNGO to.",
+            prompt="Enter the hotkey ss58 address you want to delegate JUNGO to.",
         ),
         amount: Optional[float] = typer.Option(
-            None, help="The amount of TAO to stake. Do no specify if using `--all`"
+            None, help="The amount of JUNGO to stake. Do no specify if using `--all`"
         ),
         stake_all: Optional[bool] = typer.Option(
             False,
             "--all",
             "-a",
-            help="If specified, the command stakes all available TAO. Do not specify if using"
+            help="If specified, the command stakes all available JUNGO. Do not specify if using"
             " `--amount`",
         ),
         wallet_name: Optional[str] = Options.wallet_name,
@@ -2870,12 +2870,12 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Stakes TAO to a specified delegate hotkey.
+        Stakes JUNGO to a specified delegate hotkey.
 
-        This command allocates the user's TAO to the specified hotkey of a delegate, potentially earning staking rewards in return. If the
-        `--all` flag is used, it delegates the entire TAO balance available in the user's wallet.
+        This command allocates the user's JUNGO to the specified hotkey of a delegate, potentially earning staking rewards in return. If the
+        `--all` flag is used, it delegates the entire JUNGO balance available in the user's wallet.
 
-        This command should be run by a TAO holder. Compare this command with "btcli stake add" that is typically run by a subnet validator to add stake to their own delegate hotkey.
+        This command should be run by a JUNGO holder. Compare this command with "btcli stake add" that is typically run by a subnet validator to add stake to their own delegate hotkey.
 
         EXAMPLE
 
@@ -2893,10 +2893,10 @@ class CLIManager:
         if not stake_all and not amount:
             while True:
                 amount = FloatPrompt.ask(
-                    "Amount to [blue]stake (TAO τ)[/blue]", console=console
+                    "Amount to [blue]stake (JUNGO J)[/blue]", console=console
                 )
                 confirmation = FloatPrompt.ask(
-                    "Confirm the amount to stake [blue](TAO τ)[/blue]",
+                    "Confirm the amount to stake [blue](JUNGO J)[/blue]",
                     console=console,
                 )
                 if amount == confirmation:
@@ -2927,13 +2927,13 @@ class CLIManager:
             prompt="Enter the hotkey ss58 address you want to undelegate from",
         ),
         amount: Optional[float] = typer.Option(
-            None, help="The amount of TAO to unstake. Do no specify if using `--all`"
+            None, help="The amount of JUNGO to unstake. Do no specify if using `--all`"
         ),
         unstake_all: Optional[bool] = typer.Option(
             False,
             "--all",
             "-a",
-            help="If specified, the command undelegates all staked TAO from the delegate. Do not specify if using"
+            help="If specified, the command undelegates all staked JUNGO from the delegate. Do not specify if using"
             " `--amount`",
         ),
         wallet_name: Optional[str] = Options.wallet_name,
@@ -2945,9 +2945,9 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Allows users to withdraw their staked TAO from a delegate.
+        Allows users to withdraw their staked JUNGO from a delegate.
 
-        The user must provide the delegate hotkey's ss58 address and the amount of TAO to undelegate. The function will then send a transaction to the blockchain to process the undelegation. This command can result in a change to the blockchain state and may incur transaction fees.
+        The user must provide the delegate hotkey's ss58 address and the amount of JUNGO to undelegate. The function will then send a transaction to the blockchain to process the undelegation. This command can result in a change to the blockchain state and may incur transaction fees.
 
         EXAMPLE
 
@@ -2963,10 +2963,10 @@ class CLIManager:
         if not unstake_all and not amount:
             while True:
                 amount = FloatPrompt.ask(
-                    "Amount to [blue]unstake (TAO τ)[/blue]", console=console
+                    "Amount to [blue]unstake (JUNGO J)[/blue]", console=console
                 )
                 confirmation = FloatPrompt.ask(
-                    "Confirm the amount to unstake [blue](TAO τ)[/blue]",
+                    "Confirm the amount to unstake [blue](JUNGO J)[/blue]",
                     console=console,
                 )
                 if amount == confirmation:
@@ -3016,25 +3016,25 @@ class CLIManager:
 
         - SS58: The truncated SS58 address of the delegate's hotkey.
 
-        - Delegation: The amount of TAO staked by the user to the delegate.
+        - Delegation: The amount of JUNGO staked by the user to the delegate.
 
-        - τ/24h: The earnings from the delegate to the user over the past 24 hours.
+        - J/24h: The earnings from the delegate to the user over the past 24 hours.
 
         - NOMS: The number of nominators for the delegate.
 
-        - OWNER STAKE(τ): The stake amount owned by the delegate.
+        - OWNER STAKE(J): The stake amount owned by the delegate.
 
-        - TOTAL STAKE(τ): The total stake amount held by the delegate.
+        - TOTAL STAKE(J): The total stake amount held by the delegate.
 
         - SUBNETS: The list of subnets the delegate is a part of.
 
         - VPERMIT: Validator permits held by the delegate for various subnets.
 
-        - 24h/kτ: Earnings per 1000 TAO staked over the last 24 hours.
+        - 24h/kJ: Earnings per 1000 JUNGO staked over the last 24 hours.
 
         - Desc: A description of the delegate.
 
-        The command also sums and prints the total amount of TAO delegated across all wallets.
+        The command also sums and prints the total amount of JUNGO delegated across all wallets.
 
         EXAMPLE
 
@@ -3065,7 +3065,7 @@ class CLIManager:
         """
         Displays a table of Jungoai network-wide delegates, providing a comprehensive overview of delegate statistics and information.
 
-        This table helps users make informed decisions on which delegates to allocate their TAO stake.
+        This table helps users make informed decisions on which delegates to allocate their JUNGO stake.
 
         The table columns include:
 
@@ -3077,9 +3077,9 @@ class CLIManager:
 
         - NOMINATORS: The count of nominators backing the delegate.
 
-        - OWN STAKE(τ): The amount of delegate's own stake (not the TAO delegated from any nominators).
+        - OWN STAKE(J): The amount of delegate's own stake (not the JUNGO delegated from any nominators).
 
-        - TOTAL STAKE(τ): The delegate's total stake, i.e., the sum of delegate's own stake and nominators' stakes.
+        - TOTAL STAKE(J): The delegate's total stake, i.e., the sum of delegate's own stake and nominators' stakes.
 
         - CHANGE/(4h): The percentage change in the delegate's stake over the last four hours.
 
@@ -3087,7 +3087,7 @@ class CLIManager:
 
         - VPERMIT: Indicates the subnets in which the delegate has validator permits.
 
-        - NOMINATOR/(24h)/kτ: The earnings per 1000 τ staked by nominators in the last 24 hours.
+        - NOMINATOR/(24h)/kJ: The earnings per 1000 J staked by nominators in the last 24 hours.
 
         - DELEGATE/(24h): The total earnings of the delegate in the last 24 hours.
 
@@ -3203,9 +3203,9 @@ class CLIManager:
 
         - Hotkey: The names of the coldkey's own hotkeys and the delegate hotkeys to which this coldkey has staked.
 
-        - Stake: The amount of TAO staked to all the hotkeys.
+        - Stake: The amount of JUNGO staked to all the hotkeys.
 
-        - Rate: The rate of return on the stake, shown in TAO per day.
+        - Rate: The rate of return on the stake, shown in JUNGO per day.
 
         EXAMPLE
 
@@ -3254,16 +3254,16 @@ class CLIManager:
             "--all-tokens",
             "--all",
             "-a",
-            help="When set, the command stakes all the available TAO from the coldkey.",
+            help="When set, the command stakes all the available JUNGO from the coldkey.",
         ),
         amount: float = typer.Option(
-            0.0, "--amount", help="The amount of TAO to stake"
+            0.0, "--amount", help="The amount of JUNGO to stake"
         ),
         max_stake: float = typer.Option(
             0.0,
             "--max-stake",
             "-m",
-            help="Stake is sent to a hotkey only until the hotkey's total stake is less than or equal to this maximum staked TAO. If a hotkey already has stake greater than this amount, then stake is not added to this hotkey.",
+            help="Stake is sent to a hotkey only until the hotkey's total stake is less than or equal to this maximum staked JUNGO. If a hotkey already has stake greater than this amount, then stake is not added to this hotkey.",
         ),
         hotkey_ss58_address: str = typer.Option(
             "",
@@ -3296,11 +3296,11 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Stake TAO to one or more hotkeys associated with the user's coldkey.
+        Stake JUNGO to one or more hotkeys associated with the user's coldkey.
 
-        This command is used by a subnet validator to stake to their own hotkey. Compare this command with "btcli root delegate" that is typically run by a TAO holder to delegate their TAO to a delegate's hotkey.
+        This command is used by a subnet validator to stake to their own hotkey. Compare this command with "btcli root delegate" that is typically run by a JUNGO holder to delegate their JUNGO to a delegate's hotkey.
 
-        This command is used by a subnet validator to allocate stake TAO to their different hotkeys, securing their position and influence on the network.
+        This command is used by a subnet validator to allocate stake JUNGO to their different hotkeys, securing their position and influence on the network.
 
         EXAMPLE
 
@@ -3315,10 +3315,10 @@ class CLIManager:
             raise typer.Exit()
 
         if not stake_all and not amount and not max_stake:
-            amount = FloatPrompt.ask("Amount to [blue]stake (TAO τ)[/blue]")
+            amount = FloatPrompt.ask("Amount to [blue]stake (JUNGO J)[/blue]")
 
         if stake_all and not amount:
-            if not Confirm.ask("Stake all the available TAO tokens?", default=False):
+            if not Confirm.ask("Stake all the available JUNGO tokens?", default=False):
                 raise typer.Exit()
 
         if all_hotkeys and include_hotkeys:
@@ -3416,10 +3416,10 @@ class CLIManager:
             False,
             "--unstake-all",
             "--all",
-            help="When set, this commmand unstakes all staked TAO from the specified hotkeys.",
+            help="When set, this commmand unstakes all staked JUNGO from the specified hotkeys.",
         ),
         amount: float = typer.Option(
-            0.0, "--amount", "-a", help="The amount of TAO to unstake."
+            0.0, "--amount", "-a", help="The amount of JUNGO to unstake."
         ),
         hotkey_ss58_address: str = typer.Option(
             "",
@@ -3429,7 +3429,7 @@ class CLIManager:
             0.0,
             "--keep-stake",
             "--keep",
-            help="Sets the maximum amount of TAO to remain staked in each hotkey.",
+            help="Sets the maximum amount of JUNGO to remain staked in each hotkey.",
         ),
         include_hotkeys: str = typer.Option(
             "",
@@ -3454,15 +3454,15 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Unstake TAO from one or more hotkeys and transfer them back to the user's coldkey.
+        Unstake JUNGO from one or more hotkeys and transfer them back to the user's coldkey.
 
-        This command is used to withdraw TAO previously staked to different hotkeys.
+        This command is used to withdraw JUNGO previously staked to different hotkeys.
 
         EXAMPLE
 
         [green]$[/green] btcli stake remove --amount 100 -in hk1,hk2
 
-        [blue bold]Note[/blue bold]: This command is for users who wish to reallocate their stake or withdraw them from the network. It allows for flexible management of TAO stake across different neurons (hotkeys) on the network.
+        [blue bold]Note[/blue bold]: This command is for users who wish to reallocate their stake or withdraw them from the network. It allows for flexible management of JUNGO stake across different neurons (hotkeys) on the network.
         """
         self.verbosity_handler(quiet, verbose)
 
@@ -3486,10 +3486,10 @@ class CLIManager:
             raise typer.Exit()
 
         if not unstake_all and not amount and not keep_stake:
-            amount = FloatPrompt.ask("Amount to [blue]unstake (TAO τ)[/blue]")
+            amount = FloatPrompt.ask("Amount to [blue]unstake (JUNGO J)[/blue]")
 
         if unstake_all and not amount and prompt:
-            if not Confirm.ask("Unstake all staked TAO tokens?", default=False):
+            if not Confirm.ask("Unstake all staked JUNGO tokens?", default=False):
                 raise typer.Exit()
 
         if (
@@ -4006,7 +4006,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Shows the required amount of TAO to be locked for creating a new subnet, i.e., cost of registering a new subnet.
+        Shows the required amount of JUNGO to be locked for creating a new subnet, i.e., cost of registering a new subnet.
 
         The current implementation anneals the cost of creating a subnet over a period of two days. If the displayed cost is unappealing to you, check back in a day or two to see if it has decreased to a more affordable level.
 
@@ -4146,7 +4146,7 @@ class CLIManager:
         verbose: bool = Options.verbose,
     ):
         """
-        Register a neuron (a subnet validator or a subnet miner) in the specified subnet by recycling some TAO.
+        Register a neuron (a subnet validator or a subnet miner) in the specified subnet by recycling some JUNGO.
 
         Before registering, the command checks if the specified subnet exists and whether the user's balance is sufficient to cover the registration cost.
 
@@ -4195,7 +4195,7 @@ class CLIManager:
 
         - [bold]UID[/bold]: Unique identifier of the neuron.
 
-        - [bold]STAKE(τ)[/bold]: Total stake of the neuron in TAO (τ).
+        - [bold]STAKE(J)[/bold]: Total stake of the neuron in JUNGO (J).
 
         - [bold]RANK[/bold]: Rank score of the neuron.
 
